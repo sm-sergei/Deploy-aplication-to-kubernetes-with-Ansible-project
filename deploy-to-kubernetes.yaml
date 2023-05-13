@@ -1,3 +1,24 @@
 ---
 - name: Deploy app in new namespace
+  hosts: k8s
+  gather_facts: no
+  tasks:
+   - name: Install required system packages
+     apt:
+       name: python3-pip
+       state: present       
+   - name: Install requirements python module
+     pip:
+       name:
+        - openshift
+        - pyyaml
+        - kubernetes 
+   - name: Create a new k8s namespace
+     k8s:
+       name: my-app
+       api_version: v1
+       kind: Namespace
+       kubeconfig: ~/.kube/config
 
+       
+    
